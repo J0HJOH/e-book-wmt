@@ -37,6 +37,12 @@ class _HomePageState extends State<HomePage> {
                 var path = filesAccessed[index];
                 return Dismissible(
                   key: Key(path),
+                  onDismissed: (dismissDirection){
+                    filesAccessed.remove(path);
+                    filesRepo.removeFile(path);
+                    setState((){});
+                  },
+
                   child: Card(
                     child: GestureDetector(
                       onTap: (){
@@ -45,17 +51,12 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         padding: EdgeInsets.all(5),
                         child: Text(
-                          "${path.split("/").last}",//this gets the filename
+                          path.split("/").last,//this gets the filename
                           style: Theme.of(context).textTheme.headline6,
                         ),
                       ),
                     ),
                   ),
-                  onDismissed: (dismissDirection){
-                    filesAccessed.remove(path);
-                    filesRepo.removeFile(path);
-                    setState((){});
-                  },
                 );
               }
           );
